@@ -1,0 +1,26 @@
+{
+  "campaign": "cart-counter-repair",
+  "port": 3000,
+  "journeys": [
+    {
+      "id": "cart-counts-each-item",
+      "steps": [
+        { "action": "goto", "path": "/" },
+        { "action": "assertText", "selector": "h1", "text": "Forge Cart" },
+        { "action": "click", "selector": "[data-testid=add-item]" },
+        { "action": "assertText", "selector": "[data-testid=cart-count]", "text": "1" },
+        { "action": "click", "selector": "[data-testid=add-item]" },
+        { "action": "assertText", "selector": "[data-testid=cart-count]", "text": "2" }
+      ]
+    },
+    {
+      "id": "cart-reset-regression",
+      "steps": [
+        { "action": "goto", "path": "/" },
+        { "action": "click", "selector": "[data-testid=add-item]" },
+        { "action": "click", "selector": "[data-testid=reset-cart]" },
+        { "action": "assertText", "selector": "[data-testid=cart-count]", "text": "0" }
+      ]
+    }
+  ]
+}

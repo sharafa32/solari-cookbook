@@ -27,6 +27,12 @@ past. Copy one into your project and change the parts you care about.
 | [sandbox-code-interpreter-py](examples/sandbox-code-interpreter-py) | Python | Stateful Python kernel for agent loops |
 | [sandbox-port-preview-ts](examples/sandbox-port-preview-ts) | TypeScript | Expose a server in the VM on a public URL |
 
+### Applications
+
+| Application | Language | What it shows |
+| --- | --- | --- |
+| [forge-app-qa-ts](examples/forge-app-qa-ts) | TypeScript | Reproduce a UI failure, test an isolated repair candidate, and emit a promotion verdict with browser + sandbox evidence |
+
 ### Desktop
 
 | Example | Language | What it shows |

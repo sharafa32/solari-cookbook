@@ -47,6 +47,10 @@ npm start
 
 The report and machine-readable evidence are written under `artifacts/`. All remote sessions, candidate sandboxes, and the temporary snapshot are destroyed in `finally` blocks.
 
+### Run it without your laptop
+
+The public fork includes the manually triggered **Forge Solari Live Campaign** GitHub Actions workflow. Add `SOLARI_API_KEY` as an encrypted repository secret, open **Actions → Forge Solari Live Campaign → Run workflow**, and download the seven-day evidence artifact after the run. The workflow is read-only, serialized to one campaign at a time, and stops after ten minutes.
+
 ## Why this maps to real products
 
 Replace the bundled fixture with a repository clone and map `forge.config.json` to the product's acceptance journeys. The same engine can validate signup, checkout, file upload, dashboards, and authenticated workflows. Repair agents can generate multiple candidate snapshots; Forge ranks them from evidence and promotes only the winner that clears the permanent regression suite.

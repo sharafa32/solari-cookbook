@@ -1,0 +1,51 @@
+name: Forge Solari Live Campaign
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: forge-solari-live
+  cancel-in-progress: false
+
+jobs:
+  campaign:
+    name: Recorded acceptance and repair campaign
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: examples/forge-app-qa-ts
+    env:
+      SOLARI_API_KEY: ${{ secrets.SOLARI_API_KEY }}
+
+    steps:
+      - name: Check out the public fork
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: examples/forge-app-qa-ts/package-lock.json
+
+      - name: Install pinned dependencies
+        run: npm ci
+
+      - name: Verify before spending Solari credit
+        run: npm run typecheck && npm test
+
+      - name: Run the live recorded campaign
+        run: npm start
+
+      - name: Preserve Forge evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: forge-solari-evidence-${{ github.run_id }}
+          path: examples/forge-app-qa-ts/artifacts/
+          if-no-files-found: warn
+          retention-days: 7

@@ -30,10 +30,24 @@ interface PageLike {
 
 const now = () => performance.now()
 
+export function resolvePreviewNavigationUrl(baseUrl: string, targetPath: string): string {
+  const base = new URL(baseUrl)
+  const target = new URL(targetPath, base)
+
+  // Solari preview authentication is carried in the base URL query string.
+  // URL resolution for paths such as "/" drops that query unless it is
+  // copied forward explicitly, which turns every browser assertion into a 401.
+  if (target.origin === base.origin && !target.search && base.search) {
+    target.search = base.search
+  }
+
+  return target.toString()
+}
+
 async function executeStep(page: PageLike, baseUrl: string, step: JourneyStep): Promise<string> {
   switch (step.action) {
     case "goto":
-      await page.goto(new URL(step.path, baseUrl).toString(), { waitUntil: "networkidle" })
+      await page.goto(resolvePreviewNavigationUrl(baseUrl, step.path), { waitUntil: "networkidle" })
       return `navigated to ${step.path}`
     case "click":
       await page.locator(step.selector).click()
